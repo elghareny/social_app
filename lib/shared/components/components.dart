@@ -64,7 +64,7 @@ Widget defaultButton
 ({
   double width= double.infinity,
   double height= 60,
-  Color? backcolor,
+  Color? backcolor = Colors.blue,
   double radius= 0.0,
   @required String? text,
   @required VoidCallback? function,

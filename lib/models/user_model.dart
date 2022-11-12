@@ -1,4 +1,5 @@
-import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 
 class UserModel
 {
@@ -10,15 +11,15 @@ class UserModel
   String? cover;
   String? bio;
 
-  UserModel(
-    this.uId,
-    this.name,
-    this.phone,
-    this.email,
-    this.image,
-    this.cover,
-    this.bio,
-  );
+  UserModel({
+    required this.uId,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.image,
+    required this.cover,
+    required this.bio,
+});
 
   UserModel.fromJson(Map<String,dynamic> json)
   {

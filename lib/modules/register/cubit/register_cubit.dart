@@ -57,13 +57,13 @@ void userCreate
 })
 {
   UserModel model = UserModel(
-    uId, 
-    name, 
-    phone, 
-    email,
-    image,
-    cover,
-    bio,
+    uId : uId, 
+    name : name, 
+    phone : phone, 
+    email : email,
+    image : image,
+    cover : cover,
+    bio : bio,
     );
   FirebaseFirestore.instance
   .collection('users')

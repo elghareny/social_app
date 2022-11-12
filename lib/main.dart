@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SocialCubit()..getUserModel(),
+      create: (context) => SocialCubit()..getUserData(),
       child: BlocConsumer<SocialCubit, SocialStates>(
         listener: (context, state) {
         },
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               scaffoldBackgroundColor: Colors.white,
-              appBarTheme: AppBarTheme(
+              appBarTheme: const AppBarTheme(
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: Colors.transparent,
                   statusBarIconBrightness: Brightness.dark,
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white,
                 elevation: 0,
               ),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                 type: BottomNavigationBarType.fixed,
                 selectedItemColor: Colors.blue,
                 unselectedItemColor: Colors.grey,

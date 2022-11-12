@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/modules/edit_profile/edit_profile.dart';
 import 'package:social_app/shared/components/components.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -19,20 +20,20 @@ class SettingsScreen extends StatelessWidget {
       },
       builder: (context, state) {
         var cubit = SocialCubit.get(context);
-        var userModel = cubit.model;
+        var userModel = cubit.userModel;
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               Container(
-                height: 200,
+                height: 250,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: [
                     Align(
                       alignment: AlignmentDirectional.topCenter,
                       child: Container(
-                        height: 150,
+                        height: 200,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             image: DecorationImage(
@@ -163,7 +164,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Icon(Icons.edit,size: 16,),
                       onPressed: ()
                       {
-
+                        navigatTo(context, EditProfileScreen());
                       },
                     ),
                 ],
