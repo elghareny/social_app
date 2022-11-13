@@ -26,14 +26,14 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 250,
+                height: 200,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: [
                     Align(
                       alignment: AlignmentDirectional.topCenter,
                       child: Container(
-                        height: 200,
+                        height: 150,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             image: DecorationImage(

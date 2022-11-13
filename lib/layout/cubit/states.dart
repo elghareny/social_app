@@ -39,3 +39,31 @@ class SocialGetUserErrorState extends SocialStates
 
   SocialGetUserErrorState(this.error);
 }
+
+
+
+class CreatePostLoadingState extends SocialStates{}
+class CreatePostSuccessState extends SocialStates{}
+class CreatePostErrorState extends SocialStates{}
+
+class PostImagePickedSuccessState extends SocialStates{}
+class PostImagePickedErrorState extends SocialStates{}
+
+class RemovePostImageErrorState extends SocialStates{}
+
+
+
+
+class GetPostsLoadingState extends SocialStates{}
+class GetPostsSuccessState extends SocialStates
+{
+  // final String uId;
+
+  // SocialGetPostsSuccessState(this.uId);
+}
+class GetPostsErrorState extends SocialStates
+{
+  final String? error;
+
+  GetPostsErrorState(this.error);
+}

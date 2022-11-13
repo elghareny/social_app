@@ -76,7 +76,7 @@ class EditProfileScreen extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
-                    height: 250,
+                    height: 200,
                     child: Stack(
                       alignment: AlignmentDirectional.bottomCenter,
                       children: [
@@ -86,7 +86,7 @@ class EditProfileScreen extends StatelessWidget {
                             alignment: AlignmentDirectional.topEnd,
                             children: [
                               coverImage == null ? Container(
-                                height: 200,
+                                height: 150,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(

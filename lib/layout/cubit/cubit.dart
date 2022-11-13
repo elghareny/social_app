@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/models/post_model.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/modules/chats/chats.dart';
 import 'package:social_app/modules/feeds/feeds.dart';
@@ -69,6 +69,10 @@ void getUserData()
 }
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 File? profileImage;
         var picker = ImagePicker();
 
@@ -90,10 +94,10 @@ File? coverImage;
 
         Future <void> getCoverImage()async
         {
-          final PickedFile = await picker.pickImage(source: ImageSource.gallery);
-          if(PickedFile != null)
+          final PickedFileCover = await picker.pickImage(source: ImageSource.gallery);
+          if(PickedFileCover != null)
           {
-            coverImage = File(PickedFile.path);
+            coverImage = File(PickedFileCover.path);
             emit(CoverImagePickedSuccessState());
           }else{
             print('no image selected');
@@ -222,6 +226,129 @@ void updateUser({
     emit(UserUpdateErrorState());
   });
   }
+
+
+
         
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+File? postImage;
+
+        Future <void> getPostImage()async
+        {
+          final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+          if(PickedFile != null)
+          {
+            postImage = File(PickedFile.path);
+            emit(PostImagePickedSuccessState());
+          }else{
+            print('no image selected');
+            emit(PostImagePickedErrorState());
+          }
+        }
+
+
+        void removePostImage()
+        {
+          postImage = null;
+          emit(RemovePostImageErrorState());
+        }
+
+
+
+
+void uploadPostImage({
+  @required String? text,
+  @required String? dateTime,
+  context
+})
+{
+  emit(CreatePostLoadingState());
+  firebase_storage.FirebaseStorage.instance
+  .ref()
+  .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+  .putFile(postImage!).then((value)
+  {
+    value.ref.getDownloadURL().then((value) 
+    {
+     createPost(
+    text: text, 
+     dateTime: dateTime,
+     postImage: value
+     );
+     removePostImage();
+     posts = [];
+    getPosts();
+     Navigator.pop(context);
+    }).catchError((error)
+    {
+      emit(CreatePostErrorState());
+    });
+  }).catchError((error)
+  {
+    emit(CreatePostErrorState());
+  });
+}
+
+
+
+void createPost({
+  @required String? text,
+  @required String? dateTime,
+   String? postImage,   
+   context,
+})
+{
+  emit(CreatePostLoadingState());
+   PostModel model = PostModel(
+    name : userModel!.name, 
+    image : userModel!.image,
+    uId : userModel!.uId!,
+    dateTime: dateTime,
+    psotImage: postImage ?? '',
+    text: text,
+    );
+
+  FirebaseFirestore.instance.collection('posts')
+  .add(model.toMap())
+  .then((value) 
+  {
+    posts = [];
+    getPosts();
+    Navigator.pop(context);
+    emit(CreatePostSuccessState());
+  })
+  .catchError((error)
+  {
+    emit(CreatePostErrorState());
+  });
+  }
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+
+List<PostModel> posts = [];
+
+void getPosts()
+{
+  FirebaseFirestore.instance.collection('posts')
+  .get()
+  .then((value) 
+  {
+    value.docs.forEach((element) {
+      posts.add(PostModel.fromJson(element.data()));
+    },);
+    emit(GetPostsSuccessState());
+  }).catchError((error)
+  {
+    emit(GetPostsErrorState(error.toString()));
+  });
+}
+
+
 
 }
