@@ -285,11 +285,11 @@ void uploadPostImage({
      Navigator.pop(context);
     }).catchError((error)
     {
-      emit(CreatePostErrorState());
+      emit(CreatePostErrorState(error.toString()));
     });
   }).catchError((error)
   {
-    emit(CreatePostErrorState());
+    emit(CreatePostErrorState(error.toString()));
   });
 }
 
@@ -323,15 +323,17 @@ void createPost({
   })
   .catchError((error)
   {
-    emit(CreatePostErrorState());
+    emit(CreatePostErrorState(error.toString()));
   });
   }
 
 
-/////////////////////////////////////////////////////////////////////////////
-
 
 List<PostModel> posts = [];
+
+List<String> postsId = [];
+
+List<int> likes = [];
 
 void getPosts()
 {
@@ -340,7 +342,17 @@ void getPosts()
   .then((value) 
   {
     value.docs.forEach((element) {
-      posts.add(PostModel.fromJson(element.data()));
+      element
+      .reference
+      .collection('likes')
+      .get()
+      .then((value) 
+      {
+        likes.add(value.docs.length);
+        postsId.add(element.id);
+        posts.add(PostModel.fromJson(element.data()));
+      })
+      .catchError((error){});
     },);
     emit(GetPostsSuccessState());
   }).catchError((error)
@@ -348,6 +360,55 @@ void getPosts()
     emit(GetPostsErrorState(error.toString()));
   });
 }
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+void likePost(String? postId)
+{
+  FirebaseFirestore.instance
+  .collection('posts')
+  .doc(postId)
+  .collection('likes')
+  .doc(userModel!.uId)
+  .set({
+    'like':true,
+  })
+  .then((value) 
+  {
+    emit(LikePostSuccessState());
+  })
+  .catchError((error)
+  {
+    emit(LikePostErrorState(error.toString()));
+  });
+}
+
+
+void commentPost(String? postId, String? comment)
+{
+  FirebaseFirestore.instance
+  .collection('posts')
+  .doc(postId)
+  .collection('comments')
+  .doc(userModel!.uId)
+  .set({
+    'comment':comment,
+  })
+  .then((value) 
+  {
+    emit(CommentPostSuccessState());
+  })
+  .catchError((error)
+  {
+    emit(CommentPostErrorState(error.toString()));
+  });
+}
+
 
 
 

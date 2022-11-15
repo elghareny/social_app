@@ -44,7 +44,12 @@ class SocialGetUserErrorState extends SocialStates
 
 class CreatePostLoadingState extends SocialStates{}
 class CreatePostSuccessState extends SocialStates{}
-class CreatePostErrorState extends SocialStates{}
+class CreatePostErrorState extends SocialStates
+{
+  final String? error;
+
+  CreatePostErrorState(this.error);
+}
 
 class PostImagePickedSuccessState extends SocialStates{}
 class PostImagePickedErrorState extends SocialStates{}
@@ -55,15 +60,28 @@ class RemovePostImageErrorState extends SocialStates{}
 
 
 class GetPostsLoadingState extends SocialStates{}
-class GetPostsSuccessState extends SocialStates
-{
-  // final String uId;
-
-  // SocialGetPostsSuccessState(this.uId);
-}
+class GetPostsSuccessState extends SocialStates{}
 class GetPostsErrorState extends SocialStates
 {
   final String? error;
 
   GetPostsErrorState(this.error);
+}
+
+
+class LikePostSuccessState extends SocialStates{}
+class LikePostErrorState extends SocialStates
+{
+  final String? error;
+
+  LikePostErrorState(this.error);
+}
+
+
+class CommentPostSuccessState extends SocialStates{}
+class CommentPostErrorState extends SocialStates
+{
+  final String? error;
+
+  CommentPostErrorState(this.error);
 }

@@ -21,7 +21,7 @@ class FeedsScreen extends StatelessWidget {
         
 
         return ConditionalBuilder(
-          condition: cubit.posts.length > 0,
+          condition: cubit.posts.length > 0 && cubit.userModel != null,
           fallback: (context) => Center(child: CircularProgressIndicator()),
           builder: (context) => SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -44,7 +44,7 @@ class FeedsScreen extends StatelessWidget {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => buildPostItem(cubit.posts[index],context),
+                  itemBuilder: (context, index) => buildPostItem(cubit.posts[index],context , index),
                   separatorBuilder: (context, index) => SizedBox(
                     height: 8,
                   ),
@@ -61,7 +61,7 @@ class FeedsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildPostItem(PostModel model , context) => Card(
+  Widget buildPostItem(PostModel model , context , index) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5,
       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -181,7 +181,10 @@ class FeedsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () 
+                      {
+                        SocialCubit.get(context).likePost(SocialCubit.get(context).postsId[index]);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(
@@ -194,7 +197,7 @@ class FeedsScreen extends StatelessWidget {
                             SizedBox(
                               width: 5,
                             ),
-                            Text('0')
+                            Text('${SocialCubit.get(context).likes[index]}')
                           ],
                         ),
                       ),
