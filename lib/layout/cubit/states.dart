@@ -85,3 +85,39 @@ class CommentPostErrorState extends SocialStates
 
   CommentPostErrorState(this.error);
 }
+
+
+
+class SocialGetAllUsersLoadingState extends SocialStates{}
+class SocialGetAllUsersSuccessState extends SocialStates{}
+class SocialGetAllUsersErrorState extends SocialStates
+{
+  final String? error;
+
+  SocialGetAllUsersErrorState(this.error);
+}
+
+
+
+
+class SendMessageSuccessState extends SocialStates{}
+class SendMessageErrorState extends SocialStates{}
+
+class GetMessageSuccessState extends SocialStates{}
+class GetMessageErrorState extends SocialStates{}
+
+
+
+
+
+
+
+
+
+class LogoutSuccessState extends SocialStates{}
+class LogoutErrorState extends SocialStates
+{
+  final String? error;
+
+  LogoutErrorState(this.error);
+}

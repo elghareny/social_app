@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/edit_profile/edit_profile.dart';
+import 'package:social_app/modules/login/login.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/network/local/cachehelper.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -168,6 +170,22 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                 ],
+              ),
+              SizedBox(height: 30,),
+              Container(
+                width: double.infinity,
+                height: 60,
+                child: OutlinedButton(
+                  child: Text('Logout',style: TextStyle(
+                    fontSize: 20,
+                  ),),
+                  onPressed: ()
+                  {
+                    SocialCubit.get(context).userLogout();
+                    CacheHelper.removeData(key: 'uId');
+                    navigatTo(context, LoginScreen());
+                  },
+                ),
               ),
             ],
           ),
